@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ver Dispositivos</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        img {
+            width: 120px;
+            height: 120px;
+        }
+        tr:hover {
+            background-color: #f5f5f5;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Listado de Dispositivos Donados</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Tipo de Dispositivo</th>
+                <th>Nombre</th>
+                <th>Estado</th>
+                <th>Comuna</th>
+                <th>Fotos</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr onclick="location.href='informacion-dispositivo.html';">
+                <td>Pantalla</td>
+                <td>Samsung 50 pulgadas</td>
+                <td>Funciona perfecto</td>
+                <td>Maipú</td>
+                <td><img src="img/pantalla.jpg" alt="Samsung 50 pulgadas" width="120" height="120"></td>
+            </tr>
+            <tr onclick="location.href='informacion-dispositivo.html';">
+                <td>Tablet</td>
+                <td>Huawei P90</td>
+                <td>No funciona</td>
+                <td>San Antonio</td>
+                <td><img src="img/tablet.jpg" alt="Huawei P90" width="120" height="120"></td>
+            </tr>
+            <tr onclick="location.href='informacion-dispositivo.html';">
+                <td>Notebook</td>
+                <td>MSI PRO Genesis</td>
+                <td>Funciona perfecto</td>
+                <td>San Juan</td>
+                <td><img src="img/msi.jpg" alt="MSI PRO Genesis" width="120" height="120"></td>
+            </tr>
+            <tr onclick="location.href='informacion-dispositivo.html';">
+                <td>Teclado</td>
+                <td>Razer 525</td>
+                <td>Funciona a medias</td>
+                <td>Guaitecas</td>
+                <td><img src="img/razer.jpg" alt="Razer 525" width="120" height="120"></td>
+            </tr>
+            <tr onclick="location.href='informacion-dispositivo.html';">
+                <td>Audífonos</td>
+                <td>Sony XM4000</td>
+                <td>No funciona</td>
+                <td>Ñiquen</td>
+                <td><img src="img/sony.jpg" alt="Sony XM4000" width="120" height="120"></td>
+            </tr>
+        </tbody>
+    </table>
+    <br>
+    <a href="index.html">Volver a la portada</a>
+</body>
+</html>

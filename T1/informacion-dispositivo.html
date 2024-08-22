@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Información del Dispositivo</title>
+    <style>
+        img {
+            width: 640px;
+            height: 480px;
+            cursor: pointer;
+        }
+        .large-img {
+            width: 1280px;
+            height: 1024px;
+        }
+        .hidden { display: none; }
+        form { margin-top: 20px; }
+        input, textarea { display: block; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+    <h1>Información del Dispositivo</h1>
+    <!-- Información del Contacto -->
+    <section>
+        <h2>Información del Contacto</h2>
+        <p><strong>Nombre del Donante:</strong> Juan Pérez</p>
+        <p><strong>Email del Donante:</strong> juan.perez@dcc.uchile.cl</p>
+    </section>
+    <section>
+        <h2>Detalles del Dispositivo</h2>
+        <p><strong>Tipo:</strong> Tablet</p>
+        <p><strong>Nombre:</strong> Huawei P90</p>
+        <p><strong>Estado:</strong> No funciona</p>
+        <p><strong>Comuna:</strong> San Antonio</p>
+        <p><strong>Descripción:</strong> Tablet de última generación pero que no funciona correctamente, pantalla rota.</p>
+        <p><strong>Fotos:</strong></p>
+        <img src="img/tablet.jpg" alt="Samsung Galaxy S20" id="main-image">
+        <div id="comments">
+            <h3>Comentarios</h3>
+            <ul>
+                <li><strong>2024-08-21</strong> - María González: Excelente dispositivo, en muy buen estado.</li>
+                <li><strong>2024-08-20</strong> - Pedro Martínez: Buen teléfono, pero la batería dura poco.</li>
+            </ul>
+        </div>
+    </section>
+    <section>
+        <h3>Agregar Comentario</h3>
+        <form id="comment-form">
+            <label for="commenter-name">Nombre:</label>
+            <input type="text" id="commenter-name" name="commenter-name" minlength="3" maxlength="80" required>
+            <label for="comment-text">Comentario:</label>
+            <textarea id="comment-text" name="comment-text" rows="4" cols="50" minlength="5" required></textarea>
+            <button type="button" id="add-comment">Agregar comentario</button>
+        </form>
+        <p id="comment-message" class="hidden"></p>
+    </section>
+    <br>
+    <a href="index.html">Volver a la portada</a>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const mainImage = document.getElementById('main-image');
+            const commentForm = document.getElementById('comment-form');
+            const addCommentButton = document.getElementById('add-comment');
+            const commentMessage = document.getElementById('comment-message');
+
+            mainImage.addEventListener('click', () => {
+                if (mainImage.classList.contains('large-img')) {
+                    mainImage.classList.remove('large-img');
+                } else {
+                    mainImage.classList.add('large-img');
+                }
+            });
+
+            addCommentButton.addEventListener('click', () => {
+                if (commentForm.checkValidity()) {
+                    commentMessage.textContent = 'Comentario agregado con éxito.';
+                    commentMessage.classList.remove('hidden');
+                    commentForm.reset();
+                } else {
+                    commentMessage.textContent = 'Por favor, complete todos los campos correctamente.';
+                    commentMessage.classList.remove('hidden');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

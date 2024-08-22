@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agregar Donación</title>
+    <style>
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+    <h1>Agregar Donación</h1><a href="index.html">Volver a la portada</a>
+    <form>
+        <h3>Información de Contacto</h3>
+        <!-- Nombre del donante -->
+        <label for="nombre">Nombre donante:</label><br>
+        <input type="text" id="nombre" name="nombre" required 
+            size="80" placeholder="Ingrese su nombre">
+        <br><br>
+
+        <!-- Email del donante -->
+        <label for="email">Email donante:</label><br>
+        <input type="email" id="email" name="email" required 
+            size=30 placeholder="ejemplo@correo.com">
+        <br><br>
+
+        <!-- Número celular del donante  -->
+        <label for="celular">Número celular donante:</label><br>
+        <input type="tel" id="celular" name="celular" optional 
+            size=15 placeholder="+56 9 1234 5678">
+        <br><br>
+
+        <!-- Selección de región -->
+        <label for="region">Región:</label><br>
+        <select id="region" name="region" required>
+            <option value="">Seleccione una región</option>
+        </select>
+        <br><br>
+
+        <!-- Selección de comuna -->
+        <label for="comuna">Comuna:</label><br>
+        <select id="comuna" name="comuna" required>
+            <option value="">Seleccione una comuna</option>
+        </select>
+        <br><br>
+
+        <!-- Contenedor de dispositivos -->
+        <div id="device-container">
+            <div class="device-info">
+                <h3>Información del Dispositivo</h3>
+                <label for="device-name">Nombre del Dispositivo:</label><br>
+                <input type="text" name="device-name[]" required 
+                    size=80 placeholder="Ingrese el nombre del dispositivo">
+                <br><br>
+
+                <label for="device-description">Descripción:</label><br>
+                <textarea name="device-description[]" optional
+                    rows="4" cols="50" placeholder="Ingrese una descripción (opcional)"></textarea>
+                <br><br>
+
+                <label for="divice-type">Tipo:</label><br>
+                <select name="divice-type[]" required>
+                    <option value="">Seleccione un tipo</option>
+                    <option value="pantalla">Pantalla</option>
+                    <option value="notebook">Notebook</option>
+                    <option value="tablet">Tablet</option>
+                    <option value="celular">Celular</option>
+                    <option value="consola">Consola</option>
+                    <option value="mouse">Mouse</option>
+                    <option value="teclado">Teclado</option>
+                    <option value="impresiona">Impresora</option>
+                    <option value="parlante">Parlante</option>
+                    <option value="audifonos">Audífonos</option>
+                    <option value="otros">Otros</option>
+                </select>
+                <br><br>
+
+                <label for="device-years">Años de Uso:</label><br>
+                <input type="text" name="device-years[]" required 
+                    size=3 placeholder="Años">
+                <br><br>
+
+                <label for="device-condition">Estado de Funcionamiento:</label><br>
+                <select name="device-condition[]" required>
+                    <option value="">Seleccione un estado</option>
+                    <option value="funciona-perfecto">Funciona perfecto</option>
+                    <option value="funciona-a-medias">Funciona a medias</option>
+                    <option value="no-funciona">No funciona</option>
+                </select>
+                <br><br>
+
+                <!-- Carga de fotos de productos -->
+                <label for="device-photos">Fotos de productos (mínimo 1, máximo 3):</label><br>
+                <input type="file" id="device-photos" name="device-Photos[]" accept="image/*" multiple required>
+                <br><br>
+            </div>
+        </div>
+
+        <!-- Botón para agregar otro dispositivo -->
+        <button id="add-device">Agregar otro dispositivo a esta donación</button>
+        <button id="remove-device" type="button">Eliminar último dispositivo</button>
+        <br><br>
+        
+        <!-- Botón para publicar la donación -->
+        <button id="publish-donation" type="button">Publicar esta donación</button>
+    </form>
+
+    <!-- Mensaje de confirmación -->
+    <div id="confirmation-message" class="hidden">
+        <p>¿Confirma que desea publicar esta donación?</p>
+        <button id="confirm-publish">Sí, confirmo</button>
+        <button id="cancel-publish">No, quiero volver al formulario</button>
+    </div>
+
+    <!-- Mensaje de agradecimiento -->
+    <div id="thank-you-message" class="hidden">
+        <p>Hemos recibido la información de su donación. Muchas gracias.</p>
+        <a href="index.html">Volver a la portada</a>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
