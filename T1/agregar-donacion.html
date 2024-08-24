@@ -49,7 +49,7 @@
             <div class="device-info">
                 <h3>Información del Dispositivo</h3>
                 <label for="device-name">Nombre del Dispositivo:</label><br>
-                <input type="text" name="device-name[]" required 
+                <input id="device-name" type="text" name="device-name[]" required 
                     size=80 placeholder="Ingrese el nombre del dispositivo">
                 <br><br>
 
@@ -105,6 +105,11 @@
         <button id="publish-donation" type="button">Publicar esta donación</button>
     </form>
 
+    <!-- Mensaje de error -->
+    <div id="error-message" class="hidden" style="color: red;">
+        <p>error</p>
+    </div>
+
     <!-- Mensaje de confirmación -->
     <div id="confirmation-message" class="hidden">
         <p>¿Confirma que desea publicar esta donación?</p>
@@ -118,6 +123,6 @@
         <a href="index.html">Volver a la portada</a>
     </div>
 
-    <script src="script.js"></script>
+    <script src="js/donacion.js"></script>
 </body>
 </html>

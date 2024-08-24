@@ -24,16 +24,19 @@
     <!-- Información del Contacto -->
     <section>
         <h2>Información del Contacto</h2>
-        <p><strong>Nombre del Donante:</strong> Juan Pérez</p>
-        <p><strong>Email del Donante:</strong> juan.perez@dcc.uchile.cl</p>
+        <p><strong>Nombre:</strong> Juan Pérez</p>
+        <p><strong>Email:</strong> juan.perez@dcc.uchile.cl</p>
+        <p><strong>Número:</strong> +56 9 5543 2191</p>
+        <p><strong>Región:</strong> Valaparaiso</p>
+        <p><strong>Comuna:</strong> San Antonio</p>
     </section>
     <section>
         <h2>Detalles del Dispositivo</h2>
-        <p><strong>Tipo:</strong> Tablet</p>
         <p><strong>Nombre:</strong> Huawei P90</p>
-        <p><strong>Estado:</strong> No funciona</p>
-        <p><strong>Comuna:</strong> San Antonio</p>
         <p><strong>Descripción:</strong> Tablet de última generación pero que no funciona correctamente, pantalla rota.</p>
+        <p><strong>Tipo:</strong> Tablet</p>
+        <p><strong>Años de uso:</strong> 2</p>
+        <p><strong>Estado:</strong> No funciona</p>
         <p><strong>Fotos:</strong></p>
         <img src="img/tablet.jpg" alt="Samsung Galaxy S20" id="main-image">
         <div id="comments">
@@ -58,32 +61,6 @@
     <br>
     <a href="index.html">Volver a la portada</a>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const mainImage = document.getElementById('main-image');
-            const commentForm = document.getElementById('comment-form');
-            const addCommentButton = document.getElementById('add-comment');
-            const commentMessage = document.getElementById('comment-message');
-
-            mainImage.addEventListener('click', () => {
-                if (mainImage.classList.contains('large-img')) {
-                    mainImage.classList.remove('large-img');
-                } else {
-                    mainImage.classList.add('large-img');
-                }
-            });
-
-            addCommentButton.addEventListener('click', () => {
-                if (commentForm.checkValidity()) {
-                    commentMessage.textContent = 'Comentario agregado con éxito.';
-                    commentMessage.classList.remove('hidden');
-                    commentForm.reset();
-                } else {
-                    commentMessage.textContent = 'Por favor, complete todos los campos correctamente.';
-                    commentMessage.classList.remove('hidden');
-                }
-            });
-        });
-    </script>
+    <script src="js/info-dispositivos.js"></script>
 </body>
 </html>
