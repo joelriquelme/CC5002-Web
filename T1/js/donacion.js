@@ -44,7 +44,10 @@ const validatorDonationContact = () => {
     };
 
     const validatePhone = (phone) => {
-        return String(phone).match(/^(\+?56)?(\s?)(0?9)(\s?)[98765432]\d{7}$/);
+        if (phone !== '') {
+            return String(phone).match(/^(\+?56)?(\s?)(0?9)(\s?)[98765432]\d{7}$/);
+        }
+        return true;
     };
 
     const validateRegion = (region) => region && region !== '';
