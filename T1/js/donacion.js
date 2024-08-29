@@ -106,81 +106,78 @@ const validatorDonationContact = () => {
 
 // Validar formulario de donación (Dispositivos)
 const validatorDonationDevices = () => {
-
     const validateDeviceName = (name) => name && name.length > 3 && name.length < 80;
-
     const validateDeviceType = (type) => type && type !== '';
-
-    const validateDeviceYears = (years) => years && years > 1 && years < 99;
-
+    const validateDeviceYears = (years) => years && years >= 1 && years < 99;
     const validateDeviceCondition = (condition) => condition && condition !== '';
-
-    // Validar cantidad de archivos de fotos subidas (mínimo 1 y maximo 3)
     const validateDeviceImages = (images) => images && images.length >= 1 && images.length <= 3;
     
     let deviceInfos = document.querySelectorAll('.device-info');
-    console.log(deviceInfos);
-    let isValid = false;
-    let msg = '';
-
+    let isValid = true;
+    let msgDevices = '';
 
     deviceInfos.forEach((deviceInfo, index) => {
-        let deviceNameInput = deviceInfo.querySelector('.device-name');
-        console.log(deviceNameInput);
-        let deviceTypeSelect = deviceInfo.querySelector('.device-type');
-        let deviceYearsInput = deviceInfo.querySelector('.device-years');
-        let deviceConditionSelect = deviceInfo.querySelector('.device-condition');
-        let deviceImagesInput = deviceInfo.querySelector('.device-images');
-
-        alert(deviceNameInput.value);
-
+        let deviceNameInput = deviceInfo.querySelector('[id^="device-name"]');
+        let deviceTypeSelect = deviceInfo.querySelector('[id^="device-type"]');
+        let deviceYearsInput = deviceInfo.querySelector('[id^="device-years"]');
+        let deviceConditionSelect = deviceInfo.querySelector('[id^="device-condition"]');
+        let deviceImagesInput = deviceInfo.querySelector('[id^="device-photos"]');
+    
+        if (!deviceNameInput || !deviceTypeSelect || !deviceYearsInput || !deviceConditionSelect || !deviceImagesInput) {
+            console.error(`Error: No se pudo encontrar uno o más campos en el dispositivo ${index + 1}.`);
+            return;
+        }
+    
         if (!validateDeviceName(deviceNameInput.value)) {
-            alet("hola");
-            msg += `Nombre del dispositivo ${index + 1} inválido.\n`;
+            msgDevices += `Nombre del dispositivo ${index + 1} inválido.\n`;
             deviceNameInput.style.borderColor = 'red';
             isValid = false;
         } else {
             deviceNameInput.style.borderColor = '';
-        };
-
+        }
+    
         if (!validateDeviceType(deviceTypeSelect.value)) {
-            msg += `Debe seleccionar un tipo para el dispositivo ${index + 1}.\n`;
+            msgDevices += `Debe seleccionar un tipo para el dispositivo ${index + 1}.\n`;
             deviceTypeSelect.style.borderColor = 'red';
             isValid = false;
         } else {
             deviceTypeSelect.style.borderColor = '';
-        };
-
+        }
+    
         if (!validateDeviceYears(deviceYearsInput.value)) {
-            msg += `Años del dispositivo ${index + 1} inválidos.\n`;
+            msgDevices += `Años del dispositivo ${index + 1} inválidos.\n`;
             deviceYearsInput.style.borderColor = 'red';
             isValid = false;
-        };
-
+        } else {
+            deviceYearsInput.style.borderColor = '';
+        }
+    
         if (!validateDeviceCondition(deviceConditionSelect.value)) {
-            msg += `Debe seleccionar una condición para el dispositivo ${index + 1}.\n`;
+            msgDevices += `Debe seleccionar una condición para el dispositivo ${index + 1}.\n`;
             deviceConditionSelect.style.borderColor = 'red';
             isValid = false;
         } else {
             deviceConditionSelect.style.borderColor = '';
-        };
-
+        }
+    
         if (!validateDeviceImages(deviceImagesInput.files)) {
-            msg += `Debe subir al menos una imagen para el dispositivo ${index + 1}.\n`;
+            msgDevices += `Debe subir entre 1 y 3 imagenes en el dispositivo ${index + 1}.\n`;
+            deviceImagesInput.style.borderColor = 'red';
             isValid = false;
         } else {
             deviceImagesInput.style.borderColor = '';
-        };
+        }
     });
 
-    if (msg === '') {
-        isValid = true;
-        document.getElementById('error-message').textContent = msg;
+    // Mostrar errores si existen
+    if (msgDevices !== '') {
+        document.getElementById('error-message-device').textContent = msgDevices;
+        document.getElementById('error-message-device').classList.remove('hidden');
     } else {
-        isValid = false;
-        document.getElementById('error-message').textContent = msg;
-        document.getElementById('error-message').classList.remove('hidden');
-    };
+        document.getElementById('error-message-device').classList.add('hidden');
+    }
+
+    return isValid;
 };
     
 // Eventos
@@ -194,19 +191,29 @@ document.addEventListener('DOMContentLoaded', () => {
     const confirmPublishButton = document.getElementById('confirm-publish');
     const cancelPublishButton = document.getElementById('cancel-publish');
 
-    addDeviceButton.addEventListener('click', (e) => {
-        e.preventDefault();
+    // Agregar evento para clonar y modificar IDs
+addDeviceButton.addEventListener('click', (e) => {
+    e.preventDefault();
 
-        // Clonar el conjunto de campos para un nuevo dispositivo
-        const newDevice = document.querySelector('.device-info').cloneNode(true);
-        
-        // Limpiar los campos del nuevo dispositivo
-        newDevice.querySelectorAll('input, textarea').forEach(input => {
-            input.value = '';
-        });
-
-        deviceContainer.appendChild(newDevice);
+    // Clonar el conjunto de campos para un nuevo dispositivo
+    const newDevice = document.querySelector('.device-info').cloneNode(true);
+    
+    // Limpiar los campos del nuevo dispositivo
+    newDevice.querySelectorAll('input, textarea').forEach(input => {
+        input.value = '';
+        input.removeAttribute('id');
     });
+
+    // Asignar nuevos IDs y nombres únicos a los campos del dispositivo clonado
+    let deviceIndex = document.querySelectorAll('.device-info').length;
+    newDevice.querySelectorAll('input, textarea, select').forEach((input, i) => {
+        let newId = input.getAttribute('name').replace('[]', '') + deviceIndex;
+        input.setAttribute('id', newId);
+        input.setAttribute('name', input.getAttribute('name').replace('[]', `[${deviceIndex}]`));
+    });
+
+    deviceContainer.appendChild(newDevice);
+});
 
     removeDeviceButton.addEventListener('click', (e) => {
         e.preventDefault();
@@ -221,8 +228,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     publishDonationButton.addEventListener('click', () => {
-        validatorDonationContact();
-        validatorDonationDevices();
+        let isValid = true;
+        isValid = validatorDonationContact();
+        isValid = validatorDonationDevices();
         if (isValid) {
             confirmationMessage.classList.remove('hidden');
         }

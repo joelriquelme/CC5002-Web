@@ -58,8 +58,8 @@
                     rows="4" cols="50" placeholder="Ingrese una descripción (opcional)"></textarea>
                 <br><br>
 
-                <label for="divice-type">Tipo:</label><br>
-                <select name="divice-type[]" required>
+                <label for="device-type">Tipo:</label><br>
+                <select id="device-type" name="device-type[]" required>
                     <option value="">Seleccione un tipo</option>
                     <option value="pantalla">Pantalla</option>
                     <option value="notebook">Notebook</option>
@@ -76,12 +76,12 @@
                 <br><br>
 
                 <label for="device-years">Años de Uso:</label><br>
-                <input type="text" name="device-years[]" required 
+                <input id="device-years" type="text" name="device-years[]" required 
                     size=3 placeholder="Años">
                 <br><br>
 
                 <label for="device-condition">Estado de Funcionamiento:</label><br>
-                <select name="device-condition[]" required>
+                <select id="device-condition" name="device-condition[]" required>
                     <option value="">Seleccione un estado</option>
                     <option value="funciona-perfecto">Funciona perfecto</option>
                     <option value="funciona-a-medias">Funciona a medias</option>
@@ -91,7 +91,7 @@
 
                 <!-- Carga de fotos de productos -->
                 <label for="device-photos">Fotos de productos (mínimo 1, máximo 3):</label><br>
-                <input type="file" id="device-photos" name="device-Photos[]" accept="image/*" multiple required>
+                <input id="device-photos" type="file" name="device-photos[]" accept="image/*" multiple required>
                 <br><br>
             </div>
         </div>
@@ -107,6 +107,11 @@
 
     <!-- Mensaje de error -->
     <div id="error-message" class="hidden" style="color: red;">
+        <p>error</p>
+    </div>
+
+    <!-- Mensaje de error dispositivos -->
+    <div id="error-message-device" class="hidden" style="color: red;">
         <p>error</p>
     </div>
 
