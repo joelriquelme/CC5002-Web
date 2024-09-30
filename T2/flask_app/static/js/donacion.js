@@ -1,5 +1,5 @@
 // Cargar el JSON
-fetch('region_comuna.json')
+fetch('static/json/region_comuna.json')
     .then(response => response.json())
     .then(data => {
         const regionSelect = document.getElementById('region');

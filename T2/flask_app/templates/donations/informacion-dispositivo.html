@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Información del Dispositivo</title>
+    <link rel="stylesheet" href="static/css/style.css">
+    <link rel="stylesheet" href="static/css/info.css">
+</head>
+<body>
+    <h1>Información del Dispositivo</h1>
+    <!-- Información del Contacto -->
+    <section>
+        <h2>Información del Contacto</h2>
+        <p><strong>Nombre:</strong> Juan Pérez</p>
+        <p><strong>Email:</strong> juan.perez@dcc.uchile.cl</p>
+        <p><strong>Número:</strong> +56 9 5543 2191</p>
+        <p><strong>Región:</strong> Valaparaiso</p>
+        <p><strong>Comuna:</strong> San Antonio</p>
+    </section>
+    <section>
+        <h2>Detalles del Dispositivo</h2>
+        <p><strong>Nombre:</strong> Huawei P90</p>
+        <p><strong>Descripción:</strong> Tablet de última generación pero que no funciona correctamente, pantalla rota.</p>
+        <p><strong>Tipo:</strong> Tablet</p>
+        <p><strong>Años de uso:</strong> 2</p>
+        <p><strong>Estado:</strong> No funciona</p>
+        <p><strong>Fotos:</strong></p>
+        <img src="static/img/tablet.jpg" alt="Samsung Galaxy S20" id="main-image">
+        <div id="comments">
+            <h3>Comentarios</h3>
+            <ul>
+                <li><strong>2024-08-21</strong> - María González: Excelente dispositivo, en muy buen estado.</li>
+                <li><strong>2024-08-20</strong> - Pedro Martínez: Buen teléfono, pero la batería dura poco.</li>
+            </ul>
+        </div>
+    </section>
+    <section>
+        <h3>Agregar Comentario</h3>
+        <form id="comment-form">
+            <label for="commenter-name">Nombre:</label>
+            <input type="text" id="commenter-name" name="commenter-name" minlength="3" maxlength="80" required>
+            <label for="comment-text">Comentario:</label>
+            <textarea id="comment-text" name="comment-text" rows="4" cols="50" minlength="5" required></textarea>
+            <button type="button" id="add-comment">Agregar comentario</button>
+        </form>
+        <p id="comment-message" class="hidden"></p>
+    </section>
+    <br>
+    <a href="/">Volver a la portada</a>
+
+    <script src="static/js/info-dispositivos.js"></script>
+</body>
+</html>
