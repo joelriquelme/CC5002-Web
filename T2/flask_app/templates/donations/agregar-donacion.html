@@ -7,9 +7,20 @@
     <link rel="stylesheet" href="static/css/style.css">
 </head>
 <body>
+    <button class="home-icon-button" onclick="window.location.href='/'">🏠</button>
     <h1>Agregar Donación</h1>
-    <form>
+    
+    <!-- Mensaje de agradecimiento -->
+    {% if success %}
+        <div id="thank-you-message">
+            <p>Hemos recibido la información de su donación. Muchas gracias.</p>
+        </div>
+        <br>
+    {% endif %}
+
+    <form class="formulario" id="add-donation-form" action="agregar-donacion" method="POST" enctype="multipart/form-data">
         <h3>Información de Contacto</h3>
+        
         <!-- Nombre del donante -->
         <label for="nombre">Nombre donante:</label><br>
         <input type="text" id="nombre" name="nombre" required 
@@ -95,13 +106,28 @@
         </div>
 
         <!-- Botón para agregar otro dispositivo -->
-        <button id="add-device">Agregar otro dispositivo a esta donación</button>
+        <button id="add-device" type="button">Agregar otro dispositivo a esta donación</button>
         <button id="remove-device" type="button">Eliminar último dispositivo</button>
         <br><br>
         
         <!-- Botón para publicar la donación -->
         <button id="publish-donation" type="button">Publicar esta donación</button>
+
+        <!-- Mensaje de confirmación -->
+        <div id="confirmation-message" class="hidden">
+            <p>¿Confirma que desea publicar esta donación?</p>
+            <button type="submit" id="confirm-publish" style="background-color: green;">Sí, confirmo</button>
+            <button type="button" id="cancel-publish" style="background-color: brown;">No, quiero volver al formulario</button>
+        </div>
     </form>
+
+    <div id="error-message-form" style="color: red;" class="hidden">
+        {% if errores %}
+            {% for error in errores %}
+              {{ error }}
+            {% endfor %}
+        {% endif %}
+    </div>
 
     <!-- Mensaje de error -->
     <div id="error-message" class="hidden" style="color: red;">
@@ -113,21 +139,8 @@
         <p>error</p>
     </div>
 
-    <!-- Mensaje de confirmación -->
-    <div id="confirmation-message" class="hidden">
-        <p>¿Confirma que desea publicar esta donación?</p>
-        <button id="confirm-publish">Sí, confirmo</button>
-        <button id="cancel-publish">No, quiero volver al formulario</button>
-    </div>
-
-    <!-- Mensaje de agradecimiento -->
-    <div id="thank-you-message" class="hidden">
-        <p>Hemos recibido la información de su donación. Muchas gracias.</p>
-        <a href="/">Volver a la portada</a>
-    </div>
-
     <br>
-    <a href="/">Volver a la portada</a>
+    <button class="back-home-button" onclick="window.location.href='/'">Volver a la portada</button>
 
     <script src="static/js/donacion.js"></script>
 </body>

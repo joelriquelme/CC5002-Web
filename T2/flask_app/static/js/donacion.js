@@ -179,7 +179,6 @@ const validatorDonationDevices = () => {
     } else {
         document.getElementById('error-message-device').classList.add('hidden');
     }
-    console.log(msgDevices);
     return isValid;
 };
     
@@ -194,6 +193,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const confirmPublishButton = document.getElementById('confirm-publish');
     const cancelPublishButton = document.getElementById('cancel-publish');
     const errorMessages = document.getElementById('.error-message');
+    const errorMessagesDevice = document.getElementById('.error-message-device')
+    const errorMessagesForm = document.getElementById('.error-message-form');
 
     // Agregar evento para clonar y modificar IDs
 addDeviceButton.addEventListener('click', (e) => {
@@ -234,7 +235,10 @@ addDeviceButton.addEventListener('click', (e) => {
         isValid = validatorDonationContact();
         isValid = validatorDonationDevices();
         if (isValid) {
-            confirmationMessage.classList.remove('hidden');
+            confirmationMessage.classList.remove('hidden')
+            errorMessages.classList.add('hidden');
+            errorMessagesDevice.classList.add('hidden')
+            errorMessagesForm.classList.add('hidden');
         }
     });
 

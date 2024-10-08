@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 1</title>
+</head>
+<body>
+    <div>
+        <p>Nota actual: <span id="calificacion">1</span></p>
+        <button type="button" id="btn-disminuir">Disminuir</button>
+        <button type="button" id="btn-aumentar">Aumentar</button>
+    </div>
+</body>
+<script>
+let calificacion = 1; // calificación inicial
+
+const aumentarCalificacion = () => {
+    //calificación máxima 7
+    if(calificacion < 7) {
+        calificacion++;
+    } 
+    document.getElementById('calificacion').innerText = calificacion;
+};
+
+const disminuirCalificacion = () => {
+    //calificación minima 1
+    if(calificacion > 1) {
+        calificacion--;
+    }
+    document.getElementById('calificacion').innerText = calificacion;
+};
+
+// se asignan los eventos a los botones
+document.getElementById('btn-aumentar').addEventListener('click', aumentarCalificacion);
+
+document.getElementById('btn-disminuir').addEventListener('click', disminuirCalificacion);
+
+</script>
+</html>
