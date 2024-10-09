@@ -1,9 +1,40 @@
 from flask import Flask, request, render_template, redirect, url_for
 import re
+import filetype
+from database import db
+from datetime import datetime
+import hashlib
+from werkzeug.utils import secure_filename
+import os
+
+UPLOAD_FOLDER = 'static/uploads'
 
 app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 # Funciones de validación
+
+def validate_images(images, max_size_mb=5):
+    ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg", "gif"}
+    ALLOWED_MIMETYPES = {"image/jpeg", "image/png", "image/gif"}
+    MAX_SIZE_BYTES = max_size_mb * 1024 * 1024  # Convertir de MB a Bytes
+
+    for image in images:
+        # Check if a file was submitted
+        if image is None or image.filename == "":
+            return False
+
+        # Check file extension and mimetype
+        ftype_guess = filetype.guess(image)
+        if ftype_guess is None or ftype_guess.extension not in ALLOWED_EXTENSIONS or ftype_guess.mime not in ALLOWED_MIMETYPES:
+            return False
+
+        # Check file size
+        if image.content_length > MAX_SIZE_BYTES:
+            return False
+
+    return True
+
 def validate_name(name):
     return name and 3 < len(name) < 80
 
@@ -44,6 +75,8 @@ def index():
 def agregar_donacion():
     if request.method == "POST":
         # Validar datos de contacto
+        print(request.form)
+        print(request.files)
         nombre = request.form.get('nombre')
         email = request.form.get('email')
         celular = request.form.get('celular')
@@ -69,21 +102,59 @@ def agregar_donacion():
             errores.append("Debe seleccionar una comuna.")
 
         # Validar datos de dispositivos
-        dispositivos = request.form.getlist('device-name[]')
-        for i, dispositivo in enumerate(dispositivos):
+        dispositivos_name = [value for key, value in request.form.items() if key.startswith('device-name')]
+        dispositivos_description = [value for key, value in request.form.items() if key.startswith('device-description')]
+        dispositivos_type = [value for key, value in request.form.items() if key.startswith('device-type')]
+        dispositivos_years = [value for key, value in request.form.items() if key.startswith('device-years')]
+        dispositivos_condition = [value for key, value in request.form.items() if key.startswith('device-condition')]
+
+        for i, dispositivo in enumerate(dispositivos_name):
             dispositivo_data = {
-                'device-name': request.form.getlist('device-name[]')[i],
-                'device-type': request.form.getlist('device-type[]')[i],
-                'device-years': request.form.getlist('device-years[]')[i],
-                'device-condition': request.form.getlist('device-condition[]')[i]
+                'device-name': dispositivos_name[i],
+                'device-type': dispositivos_type[i],
+                'device-years': dispositivos_years[i],
+                'device-condition': dispositivos_condition[i]
             }
             errores.extend(validate_device(dispositivo_data, i))
+
+            # Validar imágenes
+            if i == 0:
+                i = ""
+            images = [value for key, value in request.files.items() if key.startswith(f"device-photos[{i}]")]
+            print(images)
 
         # Si hay errores, renderizar el formulario con los errores
         if errores:
             return render_template("donations/agregar-donacion.html", errores=errores)
 
         else:
+            # Crear contacto
+            contacto_id = db.create_contact(nombre, email, celular, comuna, datetime.now().date())
+
+            # Crear dispositivos
+            for i, _ in enumerate(dispositivos_name):
+                print("dispositivo:", i)
+                print(dispositivos_name[i], dispositivos_description[i], dispositivos_type[i], dispositivos_years[i], dispositivos_condition[i])                
+                db.create_device(contacto_id, dispositivos_name[i], dispositivos_description[i], dispositivos_type[i], dispositivos_years[i], dispositivos_condition[i].replace("-", " "))
+
+            # Crear imágenes
+            for i, image in enumerate(images):
+                # 1. generate random name for img
+                _filename = hashlib.sha256(
+                    secure_filename(image.filename) # nombre del archivo
+                    .encode("utf-8") # encodear a bytes
+                    ).hexdigest()
+                _extension = filetype.guess(image).extension
+                img_filename = f"{_filename}.{_extension}"
+
+                # 2. save img as a file
+                image.save(os.path.join(app.config["UPLOAD_FOLDER"], img_filename))
+
+                # 3. save image in db
+                ruta_archivo = f"{UPLOAD_FOLDER}/{img_filename}"
+                db.create_image(ruta_archivo, img_filename, 1)
+
+            
             return render_template("donations/agregar-donacion.html", success=True)
         
     return render_template("donations/agregar-donacion.html")

@@ -197,28 +197,30 @@ document.addEventListener('DOMContentLoaded', () => {
     const errorMessagesForm = document.getElementById('.error-message-form');
 
     // Agregar evento para clonar y modificar IDs
-addDeviceButton.addEventListener('click', (e) => {
-    e.preventDefault();
-
-    // Clonar el conjunto de campos para un nuevo dispositivo
-    const newDevice = document.querySelector('.device-info').cloneNode(true);
+    addDeviceButton.addEventListener('click', (e) => {
+        e.preventDefault();
     
-    // Limpiar los campos del nuevo dispositivo
-    newDevice.querySelectorAll('input, textarea').forEach(input => {
-        input.value = '';
-        input.removeAttribute('id');
+        // Obtén el último dispositivo
+        const lastDeviceInfo = deviceContainer.querySelector('.device-info:last-child');
+        const newDevice = lastDeviceInfo.cloneNode(true);
+        
+        // Limpiar los campos del nuevo dispositivo
+        newDevice.querySelectorAll('input, textarea').forEach(input => {
+            input.value = '';
+            input.removeAttribute('id');  // Asegúrate de que esto esté aquí
+        });
+    
+        // Asignar nuevos IDs y nombres únicos a los campos del dispositivo clonado
+        let deviceIndex = deviceContainer.querySelectorAll('.device-info').length;  // Actualiza el índice aquí
+        newDevice.querySelectorAll('input, textarea, select').forEach(input => {
+            const baseName = input.getAttribute('name').replace('[]', '');
+            input.setAttribute('id', baseName + deviceIndex);  // Genera un nuevo ID
+            input.setAttribute('name', baseName + `[${deviceIndex}]`);  // Genera un nuevo nombre
+        });
+    
+        // Añadir el nuevo dispositivo al contenedor
+        deviceContainer.appendChild(newDevice);
     });
-
-    // Asignar nuevos IDs y nombres únicos a los campos del dispositivo clonado
-    let deviceIndex = document.querySelectorAll('.device-info').length;
-    newDevice.querySelectorAll('input, textarea, select').forEach((input, i) => {
-        let newId = input.getAttribute('name').replace('[]', '') + deviceIndex;
-        input.setAttribute('id', newId);
-        input.setAttribute('name', input.getAttribute('name').replace('[]', `[${deviceIndex}]`));
-    });
-
-    deviceContainer.appendChild(newDevice);
-});
 
     removeDeviceButton.addEventListener('click', (e) => {
         e.preventDefault();
