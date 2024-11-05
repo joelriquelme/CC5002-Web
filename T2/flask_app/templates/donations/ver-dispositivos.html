@@ -23,44 +23,47 @@
             </tr>
         </thead>
         <tbody>
-            <tr onclick="location.href='informacion-dispositivo';">
-                <td>Pantalla</td>
-                <td>Samsung 50 pulgadas</td>
-                <td>Funciona perfecto</td>
-                <td>Maipú</td>
-                <td><img src="static/img/pantalla.jpg" alt="Samsung 50 pulgadas" width="120" height="120"></td>
+            {% for dispositivo, imagen in dispositivos %}
+            <tr onclick="location.href='informacion-dispositivo/{{ dispositivo[0] }}';">
+                <td>{{ dispositivo[4] }}</td>  <!-- Tipo -->
+                <td>{{ dispositivo[2] }}</td>  <!-- Nombre del Dispositivo -->
+                <td>{{ dispositivo[5] }}</td>  <!-- Estado -->
+                <td>{{ dispositivo[6] }}</td>  <!-- Nombre de la Comuna (comuna_nombre) -->
+                <td>
+                    {% if imagen %}
+                        <img src="{{ imagen[1] }}" > 
+                    {% else %}
+                        <p>No disponible</p>
+                    {% endif %}
+                </td>
             </tr>
-            <tr onclick="location.href='informacion-dispositivo';">
-                <td>Tablet</td>
-                <td>Huawei P90</td>
-                <td>No funciona</td>
-                <td>San Antonio</td>
-                <td><img src="static/img/tablet.jpg" alt="Huawei P90" width="120" height="120"></td>
-            </tr>
-            <tr onclick="location.href='informacion-dispositivo';">
-                <td>Notebook</td>
-                <td>MSI PRO Genesis</td>
-                <td>Funciona perfecto</td>
-                <td>San Juan</td>
-                <td><img src="static/img/msi.jpg" alt="MSI PRO Genesis" width="120" height="120"></td>
-            </tr>
-            <tr onclick="location.href='informacion-dispositivo';">
-                <td>Teclado</td>
-                <td>Razer 525</td>
-                <td>Funciona a medias</td>
-                <td>Guaitecas</td>
-                <td><img src="static/img/razer.jpg" alt="Razer 525" width="120" height="120"></td>
-            </tr>
-            <tr onclick="location.href='informacion-dispositivo';">
-                <td>Audífonos</td>
-                <td>Sony XM4000</td>
-                <td>No funciona</td>
-                <td>Ñiquen</td>
-                <td><img src="static/img/sony.jpg" alt="Sony XM4000" width="120" height="120"></td>
-            </tr>
+            {% endfor %}
         </tbody>
     </table>
     <br>
     <button class="back-home-button" onclick="window.location.href='/'">Volver a la portada</button>
+    
+    <!-- Botones para navegar -->
+    <br>
+    <div class="navigation-buttons">
+        {% if desde > 0 %}
+        <button class="load-more-button" onclick="loadPrevious()">Anterior</button>
+        {% endif %}
+        <button class="load-more-button" onclick="loadNext()">Siguiente</button>
+    </div>
+
+    <script>
+        let desde = {{ desde }};
+        
+        function loadNext() {
+            // Redirige a la misma página con el nuevo índice 'desde' aumentado en 5
+            window.location.href = '/ver-dispositivos?desde=' + (desde + 5);
+        }
+
+        function loadPrevious() {
+            // Redirige a la misma página con el nuevo índice 'desde' reducido en 5
+            window.location.href = '/ver-dispositivos?desde=' + (Math.max(0, desde - 5));
+        }
+    </script>
 </body>
 </html>

@@ -4,32 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Información del Dispositivo</title>
-    <link rel="stylesheet" href="static/css/style.css">
-    <link rel="stylesheet" href="static/css/info.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/info.css') }}">
 </head>
 <body>
-    <button class="home-icon-button" onclick="window.location.href='/'">
-        🏠
-    </button>
+    <button class="home-icon-button" onclick="window.location.href='/'">🏠</button>
     <h1>Información del Dispositivo</h1>
+
     <!-- Información del Contacto -->
     <section>
         <h2>Información del Contacto</h2>
-        <p><strong>Nombre:</strong> Juan Pérez</p>
-        <p><strong>Email:</strong> juan.perez@dcc.uchile.cl</p>
-        <p><strong>Número:</strong> +56 9 5543 2191</p>
-        <p><strong>Región:</strong> Valaparaiso</p>
-        <p><strong>Comuna:</strong> San Antonio</p>
+        <p><strong>Nombre:</strong> {{ contacto[0] }}</p>
+        <p><strong>Email:</strong> {{ contacto[1] }}</p>
+        <p><strong>Número:</strong> {{ contacto[2] }}</p>
+        <p><strong>Región:</strong> {{ contacto[3] }}</p>
+        <p><strong>Comuna:</strong> {{ contacto[4] }}</p>
     </section>
+
     <section>
         <h2>Detalles del Dispositivo</h2>
-        <p><strong>Nombre:</strong> Huawei P90</p>
-        <p><strong>Descripción:</strong> Tablet de última generación pero que no funciona correctamente, pantalla rota.</p>
-        <p><strong>Tipo:</strong> Tablet</p>
-        <p><strong>Años de uso:</strong> 2</p>
-        <p><strong>Estado:</strong> No funciona</p>
+        <p><strong>Nombre:</strong> {{ dispositivo[0] }}</p>
+        <p><strong>Descripción:</strong> {{ dispositivo[1] }}</p>
+        <p><strong>Tipo:</strong> {{ dispositivo[2] }}</p>
+        <p><strong>Años de uso:</strong> {{ dispositivo[3] }}</p>
+        <p><strong>Estado:</strong> {{ dispositivo[4] }}</p>
         <p><strong>Fotos:</strong></p>
-        <img src="static/img/tablet.jpg" alt="Samsung Galaxy S20" id="main-image">
+        {% for archivo in archivos %}
+            <img src="{{ url_for('static', filename='uploads/' + archivo.split('.')[0] ~ '_640x480.' + archivo.split('.')[1]) }}" class="main-image">
+        {% endfor %}
         <div id="comments">
             <h3>Comentarios</h3>
             <ul>
@@ -49,9 +51,8 @@
         </form>
         <p id="comment-message" class="hidden"></p>
     </section>
-    <br>
-    <button class="back-home-button" onclick="window.location.href='/'">Volver a la portada</button>
 
-    <script src="static/js/info-dispositivos.js"></script>
+    <button class="back-home-button" onclick="window.location.href='/'">Volver a la portada</button>
+    <script src="{{ url_for('static', filename='js/info-dispositivos.js') }}"></script>
 </body>
 </html>

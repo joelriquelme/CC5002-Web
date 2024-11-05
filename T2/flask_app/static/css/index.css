@@ -10,6 +10,13 @@ body {
     height: 100vh;
 }
 
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    gap: 20px; 
+}
+
 /* Estilos para el contenedor de los botones */
 div {
     display: flex;

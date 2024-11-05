@@ -8,13 +8,17 @@
     <link rel="stylesheet" href="static/css/index.css">
 </head>
 <body>
-    <div>
-        <a href="agregar-donacion">
-            Agregar Donación
-        </a>
-        <a href="ver-dispositivos">
-            Ver Dispositivos
-        </a>
+    <div class="container">
+        {% if success %}
+        <div id="thank-you-message">
+            <p>Hemos recibido la información de su donación. Muchas gracias.</p>
+        </div>
+        {% endif %}
+
+        <div>
+            <a href="agregar-donacion">Agregar Donación</a>
+            <a href="ver-dispositivos">Ver Dispositivos</a>
+        </div>
     </div>
 </body>
 </html>
