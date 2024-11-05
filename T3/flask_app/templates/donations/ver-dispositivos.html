@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ver Dispositivos</title>
+    <link rel="stylesheet" href="static/css/style.css">
+    <link rel="stylesheet" href="static/css/table.css">
+</head>
+<body>
+    <button class="home-icon-button" onclick="window.location.href='/'">
+        🏠
+    </button>
+    <h1>Listado de Dispositivos Donados</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Tipo</th>
+                <th>Nombre Dispositivo</th>
+                <th>Estado</th>
+                <th>Comuna</th>
+                <th>Fotos</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for dispositivo, imagen in dispositivos %}
+            <tr onclick="location.href='informacion-dispositivo/{{ dispositivo[0] }}';">
+                <td>{{ dispositivo[4] }}</td>  <!-- Tipo -->
+                <td>{{ dispositivo[2] }}</td>  <!-- Nombre del Dispositivo -->
+                <td>{{ dispositivo[5] }}</td>  <!-- Estado -->
+                <td>{{ dispositivo[6] }}</td>  <!-- Nombre de la Comuna (comuna_nombre) -->
+                <td>
+                    {% if imagen %}
+                        <img src="{{ imagen[1] }}" > 
+                    {% else %}
+                        <p>No disponible</p>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <br>
+    <button class="back-home-button" onclick="window.location.href='/'">Volver a la portada</button>
+    
+    <!-- Botones para navegar -->
+    <br>
+    <div class="navigation-buttons">
+        {% if desde > 0 %}
+        <button class="load-more-button" onclick="loadPrevious()">Anterior</button>
+        {% endif %}
+        <button class="load-more-button" onclick="loadNext()">Siguiente</button>
+    </div>
+
+    <script>
+        let desde = {{ desde }};
+        
+        function loadNext() {
+            // Redirige a la misma página con el nuevo índice 'desde' aumentado en 5
+            window.location.href = '/ver-dispositivos?desde=' + (desde + 5);
+        }
+
+        function loadPrevious() {
+            // Redirige a la misma página con el nuevo índice 'desde' reducido en 5
+            window.location.href = '/ver-dispositivos?desde=' + (Math.max(0, desde - 5));
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Información del Dispositivo</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/info.css') }}">
+</head>
+<body>
+    <button class="home-icon-button" onclick="window.location.href='/'">🏠</button>
+    <h1>Información del Dispositivo</h1>
+
+    <!-- Información del Contacto -->
+    <section>
+        <h2>Información del Contacto</h2>
+        <p><strong>Nombre:</strong> {{ contacto[0] }}</p>
+        <p><strong>Email:</strong> {{ contacto[1] }}</p>
+        <p><strong>Número:</strong> {{ contacto[2] }}</p>
+        <p><strong>Región:</strong> {{ contacto[3] }}</p>
+        <p><strong>Comuna:</strong> {{ contacto[4] }}</p>
+    </section>
+
+    <section>
+        <h2>Detalles del Dispositivo</h2>
+        <p><strong>Nombre:</strong> {{ dispositivo[0] }}</p>
+        <p><strong>Descripción:</strong> {{ dispositivo[1] }}</p>
+        <p><strong>Tipo:</strong> {{ dispositivo[2] }}</p>
+        <p><strong>Años de uso:</strong> {{ dispositivo[3] }}</p>
+        <p><strong>Estado:</strong> {{ dispositivo[4] }}</p>
+        <p><strong>Fotos:</strong></p>
+        {% for archivo in archivos %}
+            <img src="{{ url_for('static', filename='uploads/' + archivo.split('.')[0] ~ '_640x480.' + archivo.split('.')[1]) }}" class="main-image">
+        {% endfor %}
+        <div id="comments">
+            <h3>Comentarios</h3>
+            <ul>
+                <li><strong>2024-08-21</strong> - María González: Excelente dispositivo, en muy buen estado.</li>
+                <li><strong>2024-08-20</strong> - Pedro Martínez: Buen teléfono, pero la batería dura poco.</li>
+            </ul>
+        </div>
+    </section>
+    <section>
+        <h3>Agregar Comentario</h3>
+        <form id="comment-form">
+            <label for="commenter-name">Nombre:</label>
+            <input type="text" id="commenter-name" name="commenter-name" minlength="3" maxlength="80" required>
+            <label for="comment-text">Comentario:</label>
+            <textarea id="comment-text" name="comment-text" rows="4" cols="50" minlength="5" required></textarea>
+            <button type="button" id="add-comment">Agregar comentario</button>
+        </form>
+        <p id="comment-message" class="hidden"></p>
+    </section>
+
+    <button class="back-home-button" onclick="window.location.href='/'">Volver a la portada</button>
+    <script src="{{ url_for('static', filename='js/info-dispositivos.js') }}"></script>
+</body>
+</html>

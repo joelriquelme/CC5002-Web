@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tarea 2</title>
+    <link rel="stylesheet" href="static/css/style.css">
+    <link rel="stylesheet" href="static/css/index.css">
+</head>
+<body>
+    <div class="container">
+        {% if success %}
+        <div id="thank-you-message">
+            <p>Hemos recibido la información de su donación. Muchas gracias.</p>
+        </div>
+        {% endif %}
+
+        <div>
+            <a href="agregar-donacion">Agregar Donación</a>
+            <a href="ver-dispositivos">Ver Dispositivos</a>
+        </div>
+    </div>
+</body>
+</html>
