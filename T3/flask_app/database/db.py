@@ -48,6 +48,14 @@ def create_image(ruta_archivo, nombre_archivo, dispositivo_id):
     conn.commit()
     return cursor.lastrowid
 
+def create_comment(nombre, texto, fecha, dispositivo_id):
+    query = "INSERT INTO comentario (nombre, texto, fecha, dispositivo_id) VALUES (%s, %s, %s, %s)"
+    conn = get_conn()
+    cursor = conn.cursor()
+    cursor.execute(query, (nombre, texto, fecha, dispositivo_id))
+    conn.commit()
+    return cursor.lastrowid
+
 def get_contactos():
     query = "SELECT id, nombre, email, celular, comuna_id, fecha_creacion FROM contacto ORDER BY id DESC"
     conn = get_conn()
@@ -118,3 +126,19 @@ def get_dispositivo_by_id(dispositivo_id):
     cursor.execute(query, (dispositivo_id,))
     dispositivo = cursor.fetchone()
     return dispositivo
+
+def get_comentarios(dispositivo_id):
+    query ="SELECT id, nombre, texto, fecha FROM comentario WHERE dispositivo_id = %s ORDER BY fecha DESC"
+    conn = get_conn()
+    cursor = conn.cursor()
+    cursor.execute(query, (dispositivo_id,))
+    comentarios = cursor.fetchall()
+    return comentarios
+
+def get_comuna_by_id(comuna_id):
+    query = "SELECT id, nombre FROM comuna WHERE id=%s"
+    conn = get_conn()
+    cursor = conn.cursor()
+    cursor.execute(query, (comuna_id,))
+    comuna = cursor.fetchone()
+    return comuna

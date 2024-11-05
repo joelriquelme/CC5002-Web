@@ -135,7 +135,7 @@ def agregar_donacion():
 
         else:
             # Crear contacto
-            contacto_id = db.create_contact(nombre, email, celular, comuna, datetime.now().date())
+            contacto_id = db.create_contact(nombre, email, celular, comuna, datetime.now())
 
             # Crear dispositivos
             all_ids_dispositivos = []
@@ -200,12 +200,59 @@ def ver_dispositivos():
 @app.route("/informacion-dispositivo/<int:dispositivo_id>", methods=["GET"])
 def informacion_dispositivo(dispositivo_id):
     dispositivo = db.get_dispositivo_by_id(dispositivo_id)
+    print(dispositivo)
     archivos_tuplas = db.get_archivos(dispositivo_id)
     archivos = [archivo[2] for archivo in archivos_tuplas]
     contacto_id = db.get_contacto_by_dispositivo_id(dispositivo_id)
     contacto = db.get_contacto_by_id(contacto_id)
+    comentarios = db.get_comentarios(dispositivo_id)
+    comuna = db.get_comuna_by_id(contacto[4])
 
-    return render_template("donations/informacion-dispositivo.html", dispositivo=dispositivo, archivos=archivos, contacto=contacto)
+    return render_template("donations/informacion-dispositivo.html", 
+                           comuna=comuna,
+                           dispositivo=dispositivo, 
+                           archivos=archivos, 
+                           contacto=contacto,
+                           comentarios=comentarios)
 
-if __name__ == "__main__":
-    app.run(debug=True)
+@app.route("/agregar-comentario", methods=["POST"])
+def agregar_comentario():
+    nombre = request.form.get("nombre")
+    texto = request.form.get("texto")
+    dispositivo_id = request.args.get("dispositivo_id")
+
+    dispositivo = db.get_dispositivo_by_id(dispositivo_id)
+    archivos_tuplas = db.get_archivos(dispositivo_id)
+    archivos = [archivo[2] for archivo in archivos_tuplas]
+    contacto_id = db.get_contacto_by_dispositivo_id(dispositivo_id)
+    contacto = db.get_contacto_by_id(contacto_id)
+    comentarios = db.get_comentarios(dispositivo_id)
+    comuna = db.get_comuna_by_id(contacto[3])
+
+    errores = []
+
+    if not nombre or len(nombre) < 3 or len(nombre) > 80:
+        errores.append("El nombre debe tener entre 3 y 80 caracteres.")
+    if not texto or len(texto) < 5:
+        errores.append("El comentario debe tener al menos 5 caracteres.")
+    if not dispositivo_id:
+        errores.append("ID de dispositivo inválido.")
+
+    if errores:
+        return render_template("donations/informacion-dispositivo.html", 
+                                comuna=comuna,
+                                errores=errores,
+                                dispositivo=dispositivo, 
+                                archivos=archivos, 
+                                contacto=contacto,
+                                comentarios=comentarios)
+
+    db.create_comment(nombre, texto, datetime.now(), dispositivo_id)
+    comentarios = db.get_comentarios(dispositivo_id)
+
+    return render_template("donations/informacion-dispositivo.html",
+                           comuna=comuna,
+                           dispositivo=dispositivo, 
+                           archivos=archivos, 
+                           contacto=contacto,
+                           comentarios=comentarios)

@@ -14,42 +14,61 @@
     <!-- Información del Contacto -->
     <section>
         <h2>Información del Contacto</h2>
-        <p><strong>Nombre:</strong> {{ contacto[0] }}</p>
-        <p><strong>Email:</strong> {{ contacto[1] }}</p>
-        <p><strong>Número:</strong> {{ contacto[2] }}</p>
-        <p><strong>Región:</strong> {{ contacto[3] }}</p>
-        <p><strong>Comuna:</strong> {{ contacto[4] }}</p>
+        <p><strong>Nombre:</strong> {{ contacto[1] }}</p>
+        <p><strong>Email:</strong> {{ contacto[2] }}</p>
+        <p><strong>Número:</strong> {{ contacto[3] }}</p>
+        <p><strong>Comuna:</strong> {{ comuna[1] }}</p>
+        <p><strong>Fecha de Creación:</strong> {{ contacto[5] }}</p>
     </section>
 
     <section>
         <h2>Detalles del Dispositivo</h2>
-        <p><strong>Nombre:</strong> {{ dispositivo[0] }}</p>
-        <p><strong>Descripción:</strong> {{ dispositivo[1] }}</p>
-        <p><strong>Tipo:</strong> {{ dispositivo[2] }}</p>
-        <p><strong>Años de uso:</strong> {{ dispositivo[3] }}</p>
-        <p><strong>Estado:</strong> {{ dispositivo[4] }}</p>
+        <p><strong>Nombre:</strong> {{ dispositivo[2] }}</p>
+        <p><strong>Descripción:</strong> {{ dispositivo[3] }}</p>
+        <p><strong>Tipo:</strong> {{ dispositivo[4] }}</p>
+        <p><strong>Años de uso:</strong> {{ dispositivo[5] }}</p>
+        <p><strong>Estado:</strong> {{ dispositivo[6] }}</p>
         <p><strong>Fotos:</strong></p>
         {% for archivo in archivos %}
             <img src="{{ url_for('static', filename='uploads/' + archivo.split('.')[0] ~ '_640x480.' + archivo.split('.')[1]) }}" class="main-image">
         {% endfor %}
         <div id="comments">
             <h3>Comentarios</h3>
-            <ul>
-                <li><strong>2024-08-21</strong> - María González: Excelente dispositivo, en muy buen estado.</li>
-                <li><strong>2024-08-20</strong> - Pedro Martínez: Buen teléfono, pero la batería dura poco.</li>
-            </ul>
+            {% if comentarios %}
+                <ul>
+                    {% for comentario in comentarios %}
+                        <li>
+                            <strong>{{ comentario[3].strftime('%Y-%m-%d %H:%M') }} - {{ comentario[1] }}:</strong>
+                            <p>{{ comentario[2] }}</p>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No hay comentarios para este dispositivo.</p>
+            {% endif %}
         </div>
     </section>
     <section>
-        <h3>Agregar Comentario</h3>
-        <form id="comment-form">
-            <label for="commenter-name">Nombre:</label>
-            <input type="text" id="commenter-name" name="commenter-name" minlength="3" maxlength="80" required>
-            <label for="comment-text">Comentario:</label>
-            <textarea id="comment-text" name="comment-text" rows="4" cols="50" minlength="5" required></textarea>
-            <button type="button" id="add-comment">Agregar comentario</button>
+        <h3>Agregar un Comentario</h3>
+        <form action="/agregar-comentario?dispositivo_id={{ dispositivo[0] }}" method="POST" id="form-comentario">
+            <label for="nombre">Nombre:</label><br>
+            <input type="text" id="nombre" name="nombre" required minlength="3" maxlength="80" placeholder="Tu nombre"><br><br>
+            
+            <label for="texto">Comentario:</label><br>
+            <textarea id="texto" name="texto" rows="4" cols="50" required minlength="5" placeholder="Escribe tu comentario"></textarea><br><br>
+            
+            <button type="submit">Agregar comentario</button>
         </form>
-        <p id="comment-message" class="hidden"></p>
+        {% if errores %}
+            <div class="error-message">
+                <p>Por favor, corrija los siguientes errores:</p>
+                <ul>
+                    {% for error in errores %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
     </section>
 
     <button class="back-home-button" onclick="window.location.href='/'">Volver a la portada</button>
