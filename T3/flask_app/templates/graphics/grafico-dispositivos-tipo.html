@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Gráfico-Tipo-de-Dispositivos</title>
+    <link rel="stylesheet" href="static/css/style.css">
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <button class="home-icon-button" onclick="window.location.href='/'">🏠</button>
+    <h1>Gráfico del Tipo de Dispositivos</h1>
+    <div id="grafico-dispositivos" style="width:100%; height:400px;"></div>
+
+    <script>
+        $(document).ready(function() {
+            $.ajax({
+                url: "/data-dispositivos-tipo",
+                method: "GET",
+                success: function(data) {
+                    const seriesData = data.map(item => ({ name: item.tipo, y: item.total }));
+
+                    Highcharts.chart('grafico-dispositivos', {
+                        chart: {
+                            type: 'pie'
+                        },
+                        title: {
+                            text: 'Distribución de Dispositivos por Tipo'
+                        },
+                        series: [{
+                            name: 'Total',
+                            colorByPoint: true,
+                            data: seriesData
+                        }]
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

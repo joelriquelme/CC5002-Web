@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Información del Dispositivo</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/info.css') }}">
+    <title>Información-del-Dispositivo</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/info.css">
 </head>
 <body>
     <button class="home-icon-button" onclick="window.location.href='/'">🏠</button>
@@ -30,7 +30,7 @@
         <p><strong>Estado:</strong> {{ dispositivo[6] }}</p>
         <p><strong>Fotos:</strong></p>
         {% for archivo in archivos %}
-            <img src="{{ url_for('static', filename='uploads/' + archivo.split('.')[0] ~ '_640x480.' + archivo.split('.')[1]) }}" class="main-image">
+            <img src="{{ url_for('static', filename='uploads/' + archivo.split('.')[0] ~ '_640x480.' + archivo.split('.')[1]) }}" class="main-image" alt="Imagenes de dispositivos">
         {% endfor %}
         <div id="comments">
             <h3>Comentarios</h3>

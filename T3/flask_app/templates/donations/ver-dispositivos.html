@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ver Dispositivos</title>
+    <title>Ver-Dispositivos</title>
     <link rel="stylesheet" href="static/css/style.css">
     <link rel="stylesheet" href="static/css/table.css">
 </head>
@@ -31,7 +31,7 @@
                 <td>{{ dispositivo[6] }}</td>  <!-- Nombre de la Comuna (comuna_nombre) -->
                 <td>
                     {% if imagen %}
-                        <img src="{{ imagen[1] }}" > 
+                        <img src="{{ imagen[1] }}" alt="Imagen del dispositivo" > 
                     {% else %}
                         <p>No disponible</p>
                     {% endif %}

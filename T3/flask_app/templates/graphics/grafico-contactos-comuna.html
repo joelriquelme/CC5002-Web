@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Gráfico-Contactos-por-Comuna</title>
+    <link rel="stylesheet" href="static/css/style.css">
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <button class="home-icon-button" onclick="window.location.href='/'">🏠</button>
+    <h1>Gráfico de Contactos por Comuna</h1>
+    <div id="grafico-contactos" style="width:100%; height:400px;"></div>
+
+    <script>
+        $(document).ready(function() {
+            $.ajax({
+                url: "/data-contactos-comuna",
+                method: "GET",
+                success: function(data) {
+                    const categories = data.map(item => item.comuna);
+                    const seriesData = data.map(item => item.total);
+
+                    Highcharts.chart('grafico-contactos', {
+                        chart: {
+                            type: 'column'
+                        },
+                        title: {
+                            text: 'Número de Contactos por Comuna'
+                        },
+                        xAxis: {
+                            categories: categories,
+                            title: {
+                                text: 'Comunas'
+                            }
+                        },
+                        yAxis: {
+                            title: {
+                                text: 'Total de Contactos'
+                            }
+                        },
+                        series: [{
+                            name: 'Contactos',
+                            data: seriesData
+                        }]
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

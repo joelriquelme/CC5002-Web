@@ -142,3 +142,26 @@ def get_comuna_by_id(comuna_id):
     cursor.execute(query, (comuna_id,))
     comuna = cursor.fetchone()
     return comuna
+
+def get_dispositivos_by_tipo():
+    query = """
+        SELECT tipo, COUNT(*) AS total
+        FROM dispositivo
+        GROUP BY tipo
+    """
+    conn = get_conn()
+    cursor = conn.cursor()
+    cursor.execute(query)
+    return cursor.fetchall()
+
+def get_contactos_by_comuna():
+    query = """
+        SELECT c.nombre AS comuna, COUNT(*) AS total
+        FROM contacto co
+        JOIN comuna c ON co.comuna_id = c.id
+        GROUP BY c.nombre
+    """
+    conn = get_conn()
+    cursor = conn.cursor()
+    cursor.execute(query)
+    return cursor.fetchall()

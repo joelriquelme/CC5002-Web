@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, redirect, url_for
+from flask import Flask, request, render_template, jsonify
 import re
 import filetype
 from database import db
@@ -256,3 +256,25 @@ def agregar_comentario():
                            archivos=archivos, 
                            contacto=contacto,
                            comentarios=comentarios)
+
+@app.route("/data-dispositivos-tipo", methods=["GET"])
+def data_dispositivos_tipo():
+    resultados = db.get_dispositivos_by_tipo()
+
+    datos = [{"tipo": row[0], "total": row[1]} for row in resultados]
+    return jsonify(datos)
+
+@app.route("/data-contactos-comuna", methods=["GET"])
+def data_contactos_comuna():
+    resultados = db.get_contactos_by_comuna()
+
+    datos = [{"comuna": row[0], "total": row[1]} for row in resultados]
+    return jsonify(datos)
+
+@app.route("/grafico-dispositivos-tipo")
+def grafico_dispositivos_tipo():
+    return render_template("graphics/grafico-dispositivos-tipo.html")
+
+@app.route("/grafico-contactos-comuna")
+def grafico_contactos_comuna():
+    return render_template("graphics/grafico-contactos-comuna.html")
